@@ -44,4 +44,65 @@ class Functions
 
     return ['success' => false, 'message' => 'Usuario o contraseña incorrectos o no es un cliente.'];
   }
+
+  public function editUser($userId, $data)
+  {
+    try {
+      // Preparamos la consulta SQL para actualizar los campos permitidos
+      $sql = "UPDATE usuarios SET ";
+      $params = [];
+
+      // Verificamos qué campos se van a actualizar
+      if (isset($data['nombre'])) {
+        $sql .= "nombre = :nombre, ";
+        $params['nombre'] = $data['nombre'];
+      }
+
+      if (isset($data['rol'])) {
+        $sql .= "rol = :rol, ";
+        $params['rol'] = $data['rol'];
+      }
+
+      if (isset($data['password_hash'])) {
+        $sql .= "password_hash = :password_hash, ";
+        $params['password_hash'] = $data['password_hash'];
+      }
+
+      // Eliminamos la última coma y espacio
+      $sql = rtrim($sql, ", ");
+
+      // Añadimos la condición WHERE
+      $sql .= " WHERE id = :id";
+      $params['id'] = $userId;
+
+      // Si no hay nada que actualizar, retornamos false
+      if (count($params) <= 1) {
+        return [
+          'success' => false,
+          'message' => 'No se proporcionaron campos para actualizar'
+        ];
+      }
+
+      // Preparamos y ejecutamos la consulta
+      $stmt = $this->connection->prepare($sql);
+      $result = $stmt->execute($params);
+
+      if ($result) {
+        return [
+          'success' => true,
+          'message' => 'Usuario actualizado correctamente'
+        ];
+      } else {
+        return [
+          'success' => false,
+          'message' => 'No se pudo actualizar el usuario'
+        ];
+      }
+    } catch (\PDOException $e) {
+      return [
+        'success' => false,
+        'message' => 'Error al actualizar usuario: ' . $e->getMessage()
+      ];
+    }
+  }
 }
