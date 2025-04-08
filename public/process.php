@@ -25,10 +25,26 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         'password_hash' => $_POST['password_hash']
       ];
 
-      $user = $funciones->loginUser($data);
+      $user = $funciones->loginUsuario($_POST['email'],$_POST['password_hash']);
+      
+      
 
       if ($user['success']) {
-        header('location:/EISPDM_PROJECTS/Tienda_Scripts/public/user.php');
+        //header('location:/EISPDM_PROJECTS/Tienda_Scripts/public/user.php');
+        $rol = $user['rol'];
+
+        if ($rol === 'admin') {
+            
+        header('Location:/EISPDM_PROJECTS/Tienda_Scripts/public/admin.php');
+        } elseif ($rol === 'cliente') {
+           
+        header('Location:/EISPDM_PROJECTS/Tienda_Scripts/public/user.php');
+        } elseif ($rol === 'desarrollador') {
+            header('Location: dev.php');
+        } else {
+            echo "Rol desconocido.";
+        }
+
       } else {
         echo "error al iniciar session";
       }
@@ -73,6 +89,17 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         /*  header('Location: index.php?tab=usuarios&error=ID de usuario no especificado');*/
       }
       break;
+    case 'deleteUser':
+
+      $id = $_POST['id'];
+
+      /*dd($id);*/
+
+        $funciones->deleteUser($id);
+            
+        header('Location:/EISPDM_PROJECTS/Tienda_Scripts/public/admin.php');
+       exit;
+    break;  
     default:
       echo "error";
   };

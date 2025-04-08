@@ -130,7 +130,17 @@ $pagos = getTableData($connection, 'pagos');
                     <td><?= $usuario['fecha_registro'] ?></td>
                     <td>
                       <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal<?= $usuario['id'] ?>"><i class="fas fa-edit"></i></button>
-                      <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+
+
+                      <form action="process.php" method="POST" style="display:inline;">
+  <input type="hidden" name="action" value="deleteUser">
+  <input type="hidden" name="id" value="<?= $usuario['id'] ?>">
+  <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?')">
+    <i class="fas fa-trash"></i>
+  </button>
+</form>
+
+
                     </td>
                   </tr>
                 <?php endforeach; ?>

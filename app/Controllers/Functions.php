@@ -105,4 +105,49 @@ class Functions
       ];
     }
   }
+
+  public function deleteUser($id) {
+      try{
+        $stmt = $this->connection->prepare("CALL EliminarUsuario(:id)");
+        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+        $stmt->closeCursor();
+      }catch(\PDOException $e){
+        echo "error delete".$e->getMessage();
+      }   
+  }
+
+
+  function loginUsuario($email, $password) {
+    //require 'conexion.php'; // Asegúrate de tener el PDO aquí
+
+    try {
+        $stmt = $this->connection->prepare("CALL LoginUsuario(?, ?)");
+        $stmt->execute([$email, $password]);
+        $usuario = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        if ($usuario) {
+            return [
+                'success' => true,
+                'mensaje' => 'Inicio de sesión exitoso',
+                'id' => $usuario['id'],
+                'nombre' => $usuario['nombre'],
+                'email' => $usuario['email'],
+                'rol' => $usuario['rol']
+            ];
+        } else {
+            return [
+                'success' => false,
+                'mensaje' => 'Correo o contraseña incorrectos'
+            ];
+        }
+    } catch (\PDOException $e) {
+        return [
+            'success' => false,
+            'mensaje' => 'Error de base de datos: ' . $e->getMessage()
+        ];
+    }
+}
+
+
 }

@@ -41,3 +41,132 @@ CREATE TABLE pagos (
     FOREIGN KEY (solicitud_id) REFERENCES solicitudes(id) ON DELETE CASCADE
 );
 
+
+
+
+
+DELIMITER //
+CREATE PROCEDURE CrearUsuario(
+    IN p_nombre VARCHAR(100),
+    IN p_email VARCHAR(100),
+    IN p_password_hash VARCHAR(255),
+    IN p_rol ENUM('cliente', 'desarrollador', 'admin')
+)
+BEGIN
+    INSERT INTO usuarios(nombre, email, password_hash, rol)
+    VALUES (p_nombre, p_email, p_password_hash, p_rol);
+END;
+//
+DELIMITER ;
+
+
+
+
+DELIMITER //
+CREATE PROCEDURE ObtenerUsuarios()
+BEGIN
+    SELECT id, nombre, email, rol, fecha_registro FROM usuarios;
+END;
+//
+DELIMITER ;
+
+
+
+
+
+DELIMITER //
+CREATE PROCEDURE ObtenerUsuarioPorID(IN p_id INT)
+BEGIN
+    SELECT id, nombre, email, rol, fecha_registro
+    FROM usuarios
+    WHERE id = p_id;
+END;
+//
+DELIMITER ;
+
+
+
+
+
+DELIMITER //
+CREATE PROCEDURE ActualizarUsuario(
+    IN p_id INT,
+    IN p_nombre VARCHAR(100),
+    IN p_email VARCHAR(100),
+    IN p_password_hash VARCHAR(255),
+    IN p_rol ENUM('cliente', 'desarrollador', 'admin')
+)
+BEGIN
+    UPDATE usuarios
+    SET nombre = p_nombre,
+        email = p_email,
+        password_hash = p_password_hash,
+        rol = p_rol
+    WHERE id = p_id;
+END;
+//
+DELIMITER ;
+
+
+
+
+
+
+DELIMITER //
+CREATE PROCEDURE EliminarUsuario(IN p_id INT)
+BEGIN
+    DELETE FROM usuarios WHERE id = p_id;
+END;
+//
+DELIMITER ;
+
+
+
+
+DELIMITER //
+CREATE PROCEDURE LoginUsuario(
+    IN p_email VARCHAR(100),
+    IN p_password_hash VARCHAR(255)
+)
+BEGIN
+    SELECT id, nombre, email, rol
+    FROM usuarios
+    WHERE email = p_email AND password_hash = p_password_hash;
+END;
+//
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE VerificarEmailExiste(
+    IN p_email VARCHAR(100)
+)
+BEGIN
+    SELECT COUNT(*) AS existe
+    FROM usuarios
+    WHERE email = p_email;
+END;
+//
+DELIMITER ;
+
+
+
+DELIMITER //
+
+CREATE PROCEDURE LoginUsuario(
+    IN p_email VARCHAR(100),
+    IN p_password_hash VARCHAR(255)
+)
+BEGIN
+    SELECT id, nombre, email, rol
+    FROM usuarios
+    WHERE email = p_email AND password_hash = p_password_hash;
+END;
+//
+
+DELIMITER ;
+
+
+
+
