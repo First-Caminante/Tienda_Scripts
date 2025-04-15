@@ -14,10 +14,12 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
       $data = [
         ':nombre' => $_POST['nombre'],
         ':email' => $_POST['email'],
-        ':password_hash' => $_POST['password_hash']
+        ':password_hash' => password_hash($_POST['password_hash'], PASSWORD_DEFAULT)
       ];
       #dd($data);
       $funciones->addUser($data);
+      header('Location:/EISPDM_PROJECTS/Tienda_Scripts/public/login.php');
+
       break;
     case 'loginUser':
       $data = [
@@ -25,26 +27,25 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         'password_hash' => $_POST['password_hash']
       ];
 
-      $user = $funciones->loginUsuario($_POST['email'],$_POST['password_hash']);
-      
-      
+      $user = $funciones->loginUsuario($_POST['email'], $_POST['password_hash']);
+
+
 
       if ($user['success']) {
         //header('location:/EISPDM_PROJECTS/Tienda_Scripts/public/user.php');
         $rol = $user['rol'];
 
         if ($rol === 'admin') {
-            
-        header('Location:/EISPDM_PROJECTS/Tienda_Scripts/public/admin.php');
-        } elseif ($rol === 'cliente') {
-           
-        header('Location:/EISPDM_PROJECTS/Tienda_Scripts/public/user.php');
-        } elseif ($rol === 'desarrollador') {
-            header('Location: dev.php');
-        } else {
-            echo "Rol desconocido.";
-        }
 
+          header('Location:/EISPDM_PROJECTS/Tienda_Scripts/public/admin.php');
+        } elseif ($rol === 'cliente') {
+
+          header('Location:/EISPDM_PROJECTS/Tienda_Scripts/public/user.php');
+        } elseif ($rol === 'desarrollador') {
+          header('Location: dev.php');
+        } else {
+          echo "Rol desconocido.";
+        }
       } else {
         echo "error al iniciar session";
       }
@@ -95,11 +96,11 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
       /*dd($id);*/
 
-        $funciones->deleteUser($id);
-            
-        header('Location:/EISPDM_PROJECTS/Tienda_Scripts/public/admin.php');
-       exit;
-    break;  
+      $funciones->deleteUser($id);
+
+      header('Location:/EISPDM_PROJECTS/Tienda_Scripts/public/admin.php');
+      exit;
+      break;
     default:
       echo "error";
   };
