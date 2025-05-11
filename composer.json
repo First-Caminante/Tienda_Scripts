@@ -20,6 +20,7 @@
     }
   },
   "require": {
-    "symfony/var-dumper": "^7.0"
+    "symfony/var-dumper": "^7.0",
+    "tecnickcom/tcpdf": "^6.7"
   }
 }
