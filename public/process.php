@@ -35,12 +35,21 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         //header('location:/EISPDM_PROJECTS/Tienda_Scripts/public/user.php');
         $rol = $user['rol'];
 
+        session_start();
+
+        $_SESSION['nombre'] = $user['nombre'];
+        $_SESSION['email'] = $user['email'];
+        $_SESSION['rol'] = $user['rol'];
+        $_SESSION['id'] = $user['id'];
+
+
         if ($rol === 'admin') {
 
           header('Location:/EISPDM_PROJECTS/Tienda_Scripts/public/admin.php');
         } elseif ($rol === 'cliente') {
 
           header('Location:/EISPDM_PROJECTS/Tienda_Scripts/public/user.php');
+          exit;
         } elseif ($rol === 'desarrollador') {
           header('Location: dev.php');
         } else {
@@ -68,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
         // Solo actualizar la contraseña si se proporcionó una nueva
         if (isset($_POST['password_hash']) && !empty($_POST['password_hash'])) {
-          $data['password_hash'] = $_POST['password_hash'];
+          $data['password_hash'] = password_hash($_POST['password_hash'], PASSWORD_DEFAULT);
           // Aquí podrías añadir un hash a la contraseña si lo necesitas
           // $data['password_hash'] = password_hash($_POST['password_hash'], PASSWORD_DEFAULT);
         }
@@ -94,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
       $id = $_POST['id'];
 
-      /*dd($id);*/
+      //dd($id);
 
       $funciones->deleteUser($id);
 

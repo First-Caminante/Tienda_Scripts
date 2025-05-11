@@ -1,3 +1,36 @@
+<?php 
+
+require("../vendor/autoload.php");
+
+use Model\Usuario;
+
+
+session_start();
+
+//dd($_SESSION);
+
+
+$usuario = new Usuario();
+
+
+$name = $_SESSION['nombre'];
+$rol = $_SESSION['rol'];
+$id = $_SESSION['id'];
+$email = $_SESSION['email'];
+
+
+
+
+$usuario->setNombre($name);
+$usuario->setRol($rol);
+$usuario->setId($id);
+$usuario->setEmail($email);
+
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -615,7 +648,7 @@
           <li class="nav-item dropdown profile-dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <img src="/api/placeholder/100/100" alt="Usuario" class="profile-avatar">
-              <span class="ms-2 d-none d-lg-inline">Carlos González</span>
+              <span class="ms-2 d-none d-lg-inline"><?= $name ?></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Mi Perfil</a></li>
@@ -624,7 +657,7 @@
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i> Cerrar Sesión</a></li>
+              <li><a class="dropdown-item" href="index.php"><i class="fas fa-sign-out-alt me-2"></i> Cerrar Sesión</a></li>
             </ul>
           </li>
         </ul>
@@ -676,7 +709,7 @@
         <i class="fas fa-cog"></i>
         <span>Configuración</span>
       </a>
-      <a href="#" class="sidebar-link">
+      <a href="index.php" class="sidebar-link">
         <i class="fas fa-sign-out-alt"></i>
         <span>Cerrar Sesión</span>
       </a>

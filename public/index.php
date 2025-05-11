@@ -398,7 +398,7 @@
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <h5 class="card-title mb-0">E-commerce Suite</h5>
-                <span class="badge-custom">$129</span>
+                <span class="badge-custom">Bs129</span>
               </div>
               <p class="card-text">Sistema completo de tienda online con carrito de compras, pagos y panel de administración.</p>
               <div class="d-flex justify-content-between">
@@ -414,7 +414,7 @@
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <h5 class="card-title mb-0">Admin Dashboard Pro</h5>
-                <span class="badge-custom">$79</span>
+                <span class="badge-custom">Bs79</span>
               </div>
               <p class="card-text">Panel de administración con estadísticas, gráficos y gestión de usuarios en tiempo real.</p>
               <div class="d-flex justify-content-between">
@@ -430,7 +430,7 @@
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <h5 class="card-title mb-0">CRM Business</h5>
-                <span class="badge-custom">$199</span>
+                <span class="badge-custom">Bs199</span>
               </div>
               <p class="card-text">Sistema de gestión de clientes con seguimiento de ventas, tickets y comunicaciones.</p>
               <div class="d-flex justify-content-between">
@@ -446,7 +446,7 @@
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <h5 class="card-title mb-0">Chat App Master</h5>
-                <span class="badge-custom">$69</span>
+                <span class="badge-custom">Bs69</span>
               </div>
               <p class="card-text">Sistema de chat en tiempo real con mensajes privados, grupos y notificaciones.</p>
               <div class="d-flex justify-content-between">
@@ -462,7 +462,7 @@
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <h5 class="card-title mb-0">Reservation System</h5>
-                <span class="badge-custom">$89</span>
+                <span class="badge-custom">Bs89</span>
               </div>
               <p class="card-text">Sistema de reservas y citas con calendario, recordatorios y pagos anticipados.</p>
               <div class="d-flex justify-content-between">
@@ -478,7 +478,7 @@
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <h5 class="card-title mb-0">LMS Education</h5>
-                <span class="badge-custom">$149</span>
+                <span class="badge-custom">Bs149</span>
               </div>
               <p class="card-text">Plataforma de aprendizaje con cursos, lecciones, exámenes y certificaciones.</p>
               <div class="d-flex justify-content-between">
@@ -595,7 +595,7 @@
           <div class="card border-0 shadow mb-4">
             <div class="card-header text-center bg-white pt-4 border-0">
               <h4>Básico</h4>
-              <h1 class="display-4 fw-bold">$29<small class="fs-5 text-muted">/mes</small></h1>
+              <h1 class="display-4 fw-bold">Bs29<small class="fs-5 text-muted">/mes</small></h1>
             </div>
             <div class="card-body">
               <ul class="list-unstyled">
@@ -616,7 +616,7 @@
             <div class="card-header text-center bg-primary text-white pt-4 border-0">
               <span class="badge bg-warning position-absolute top-0 start-50 translate-middle px-3 py-2">Popular</span>
               <h4>Profesional</h4>
-              <h1 class="display-4 fw-bold">$89<small class="fs-5 text-light">/mes</small></h1>
+              <h1 class="display-4 fw-bold">Bs89<small class="fs-5 text-light">/mes</small></h1>
             </div>
             <div class="card-body">
               <ul class="list-unstyled">
@@ -636,7 +636,7 @@
           <div class="card border-0 shadow mb-4">
             <div class="card-header text-center bg-white pt-4 border-0">
               <h4>Empresarial</h4>
-              <h1 class="display-4 fw-bold">$199<small class="fs-5 text-muted">/mes</small></h1>
+              <h1 class="display-4 fw-bold">Bs199<small class="fs-5 text-muted">/mes</small></h1>
             </div>
             <div class="card-body">
               <ul class="list-unstyled">

@@ -3,7 +3,7 @@
         'name' => 'caminante/tienda_scripts',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'b7f429ec08e85adc7a15964ba21c77e15d8cc720',
+        'reference' => '31b626eef0f2a2e74f643796c37c16cfae82e8af',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'caminante/tienda_scripts' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'b7f429ec08e85adc7a15964ba21c77e15d8cc720',
+            'reference' => '31b626eef0f2a2e74f643796c37c16cfae82e8af',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -26,7 +26,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/polyfill-mbstring',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'symfony/var-dumper' => array(
             'pretty_version' => 'v7.2.3',
@@ -35,7 +35,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/var-dumper',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
     ),
 );

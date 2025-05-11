@@ -1,4 +1,8 @@
 <?php
+
+namespace Model;
+
+
 class Usuario
 {
   private $id;

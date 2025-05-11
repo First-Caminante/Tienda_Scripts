@@ -171,8 +171,5 @@
         }
     ],
     "dev": true,
-    "dev-package-names": [
-        "symfony/polyfill-mbstring",
-        "symfony/var-dumper"
-    ]
+    "dev-package-names": []
 }
