@@ -654,6 +654,11 @@ $usuario->setEmail($email);
               <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Mi Perfil</a></li>
               <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Configuración</a></li>
               <li><a class="dropdown-item" href="#"><i class="fas fa-download me-2"></i> Mis Descargas</a></li>
+              
+              <li><a class="dropdown-item" href="manual/"
+
+
+><i class="fas fa-question-circle me-2"></i> AYUDA</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
