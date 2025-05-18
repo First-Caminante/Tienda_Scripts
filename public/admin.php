@@ -1,4 +1,8 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 // Incluir el autoloader de Composer
 require_once '../vendor/autoload.php';
 
@@ -26,6 +30,64 @@ $usuarios = getTableData($connection, 'usuarios');
 $solicitudes = getTableData($connection, 'solicitudes');
 $respuestas = getTableData($connection, 'respuestas');
 $pagos = getTableData($connection, 'pagos');
+
+
+
+
+///////////backup 
+
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $source_dir = realpath(__DIR__ . '/../');
+  $backup_dir = $source_dir . '/backups';
+
+  if (!is_dir($backup_dir)) {
+    if (!mkdir($backup_dir, 0777, true)) {
+      die("❌ No se pudo crear la carpeta de backups.");
+    }
+  }
+
+  $zip_filename = 'backup_' . date('Ymd_His') . '.zip';
+  $zip_path = $backup_dir . DIRECTORY_SEPARATOR . $zip_filename;
+
+  $zip = new ZipArchive();
+  if ($zip->open($zip_path, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE) {
+    die("❌ No se pudo crear el archivo ZIP.");
+  }
+
+  function agregarDirectorio($zip, $folder, $base)
+  {
+    $files = new RecursiveIteratorIterator(
+      new RecursiveDirectoryIterator($folder, RecursiveDirectoryIterator::SKIP_DOTS),
+      RecursiveIteratorIterator::LEAVES_ONLY
+    );
+
+    foreach ($files as $file) {
+      if (!$file->isDir()) {
+        $filePath = $file->getRealPath();
+        $relativePath = substr($filePath, strlen($base) + 1);
+        $zip->addFile($filePath, $relativePath);
+      }
+    }
+  }
+
+  agregarDirectorio($zip, $source_dir, $source_dir);
+  $zip->close();
+
+  if (!file_exists($zip_path)) {
+    die("❌ ERROR: No se pudo crear el archivo ZIP en: $zip_path");
+  } else {
+    $zip_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/../backups/' . $zip_filename;
+    echo "✅ Backup creado correctamente.<br>";
+    echo "📁 Ruta del archivo: <code>$zip_path</code><br>";
+    echo "⬇️ <a href=\"$zip_url\" download>Descargar backup</a><br><br>";
+  }
+}
+
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -58,6 +120,10 @@ $pagos = getTableData($connection, 'pagos');
 <body>
   <div class="container-fluid py-4">
     <h1 class="mb-4">Panel Administrativo - TiendaScripts</h1>
+
+    <form method="POST">
+      <button type="submit" name="backup">Crear Backup Completo</button>
+    </form>
 
     <!-- Navegación por pestañas -->
     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -133,12 +199,12 @@ $pagos = getTableData($connection, 'pagos');
 
 
                       <form action="process.php" method="POST" style="display:inline;">
-  <input type="hidden" name="action" value="deleteUser">
-  <input type="hidden" name="id" value="<?= $usuario['id'] ?>">
-  <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?')">
-    <i class="fas fa-trash"></i>
-  </button>
-</form>
+                        <input type="hidden" name="action" value="deleteUser">
+                        <input type="hidden" name="id" value="<?= $usuario['id'] ?>">
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?')">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </form>
 
 
                     </td>
