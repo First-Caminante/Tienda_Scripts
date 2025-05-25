@@ -74,7 +74,7 @@
       border-left: 3px solid transparent;
     }
 
-    .sidebar-menu a:hover, 
+    .sidebar-menu a:hover,
     .sidebar-menu a.active {
       color: white;
       background: rgba(255, 255, 255, 0.1);
@@ -172,7 +172,7 @@
       text-decoration: none;
     }
 
-    .breadcrumb-item + .breadcrumb-item::before {
+    .breadcrumb-item+.breadcrumb-item::before {
       color: var(--primary-color);
     }
 
@@ -405,6 +405,7 @@
       from {
         opacity: 0;
       }
+
       to {
         opacity: 1;
       }
@@ -419,6 +420,7 @@
         opacity: 0;
         transform: translateY(20px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -429,15 +431,15 @@
       .sidebar {
         transform: translateX(-100%);
       }
-      
+
       .sidebar.active {
         transform: translateX(0);
       }
-      
+
       .main-content {
         margin-left: 0;
       }
-      
+
       .sidebar-toggle {
         display: block;
         position: fixed;
@@ -466,20 +468,20 @@
     <div class="sidebar-header">
       <h3 class="animate__animated animate__fadeIn">TIENDA DE SCRIPTS</h3>
     </div>
-    
+
     <ul class="sidebar-menu">
       <li><a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
       <li><a href="#"><i class="fas fa-code"></i> Mis Scripts</a></li>
       <li><a href="#"><i class="fas fa-plus-circle"></i> Crear Script</a></li>
       <li><a href="#"><i class="fas fa-chart-line"></i> Estadísticas</a></li>
       <li><a href="#"><i class="fas fa-dollar-sign"></i> Ventas</a></li>
-      
+
       <div class="menu-label">Configuración</div>
       <li><a href="#"><i class="fas fa-user-cog"></i> Perfil</a></li>
       <li><a href="#"><i class="fas fa-bell"></i> Notificaciones</a></li>
       <li><a href="#"><i class="fas fa-question-circle"></i> Ayuda</a></li>
     </ul>
-    
+
     <div class="user-profile">
       <img src="/api/placeholder/40/40" alt="Perfil">
       <div class="user-info">
@@ -648,7 +650,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="col-md-4 slide-up" style="animation-delay: 0.4s">
         <div class="card">
           <div class="card-header">
@@ -769,12 +771,12 @@ fi</code></pre>
                 <div class="editor-status">Última modificación: 15/04/2025 10:30</div>
                 <div class="editor-actions">
                   <button class="btn btn-sm btn-outline-secondary">Formato</button>
-                  <button class="btn btn-sm btn-outline-primary">Guardar</button>
+                  <button title="Guardar" class="btn btn-sm btn-outline-primary">Guardar</button>
                   <button class="btn btn-sm btn-primary">Publicar</button>
                 </div>
               </div>
             </div>
-            
+
             <div class="row mt-4">
               <div class="col-md-6">
                 <div class="mb-3">
@@ -799,7 +801,7 @@ fi</code></pre>
                 </div>
               </div>
             </div>
-            
+
             <div class="row">
               <div class="col-md-6">
                 <div class="mb-3">
@@ -821,29 +823,93 @@ fi</code></pre>
   </div>
 
   <script>
+    ///// guardar script 
+
+
+    /*document.querySelector('button[title="Guardar"]').addEventListener('click', () => {
+      const scriptTitle = document.getElementById("scriptTitle").value;
+      const scriptDesc = document.getElementById("scriptDesc").value;
+      const scriptCategory = document.getElementById("scriptCategory").value;
+      const scriptPrice = document.getElementById("scriptPrice").value;
+      const scriptTags = document.getElementById("scriptTags").value;
+      const scriptContent = document.querySelector('pre code').innerText;
+
+      fetch('guardar.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            titulo: scriptTitle,
+            descripcion: scriptDesc,
+            categoria: scriptCategory,
+            precio: scriptPrice,
+            etiquetas: scriptTags,
+            contenido: scriptContent
+          })
+        })
+        .then(response => response.text())
+        .then(data => alert(data))
+        .catch(err => alert("Error: " + err));
+    });*/
+
+
+    document.querySelector('button[title="Guardar"]').addEventListener('click', () => {
+      const scriptTitle = document.getElementById("scriptTitle").value;
+      const scriptDesc = document.getElementById("scriptDesc").value;
+      const scriptCategory = document.getElementById("scriptCategory").value;
+      const scriptPrice = document.getElementById("scriptPrice").value;
+      const scriptTags = document.getElementById("scriptTags").value;
+      const scriptContent = document.querySelector('pre code').innerText;
+
+      fetch('guardar.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            titulo: scriptTitle,
+            descripcion: scriptDesc,
+            categoria: scriptCategory,
+            precio: scriptPrice,
+            etiquetas: scriptTags,
+            contenido: scriptContent
+          })
+        })
+        .then(response => response.text())
+        .then(data => alert(data))
+        .catch(err => alert("Error: " + err));
+    });
+
+
+
+
+    // guardar script 
+    //
+
     document.addEventListener("DOMContentLoaded", function() {
       // Toggle sidebar on mobile
       const sidebarToggle = document.querySelector('.sidebar-toggle');
       const sidebar = document.querySelector('.sidebar');
-      
+
       if (sidebarToggle) {
         sidebarToggle.addEventListener('click', function() {
           sidebar.classList.toggle('active');
         });
       }
-      
+
       // Animate elements when they come into view
       const animateElements = function() {
         const fadeElements = document.querySelectorAll('.fade-in:not(.animated)');
         const slideElements = document.querySelectorAll('.slide-up:not(.animated)');
-        
+
         fadeElements.forEach(el => {
           const rect = el.getBoundingClientRect();
           if (rect.top <= window.innerHeight - 100) {
             el.classList.add('animated');
           }
         });
-        
+
         slideElements.forEach(el => {
           const rect = el.getBoundingClientRect();
           if (rect.top <= window.innerHeight - 100) {
@@ -851,18 +917,18 @@ fi</code></pre>
           }
         });
       };
-      
+
       // Run once on load and then on scroll
       animateElements();
       window.addEventListener('scroll', animateElements);
-      
+
       // Simulate loading for demo purposes
       setTimeout(() => {
         document.querySelectorAll('.animate__animated').forEach(el => {
           el.classList.add('animate__fadeIn');
         });
       }, 300);
-      
+
       // Handle logout button click
       const logoutBtn = document.querySelector('.logout-btn');
       if (logoutBtn) {
@@ -873,15 +939,15 @@ fi</code></pre>
           window.location.href = 'index.php';
         });
       }
-      
+
       // Handle editor actions
       const editorActions = document.querySelectorAll('.editor-toolbar button, .editor-actions button');
       editorActions.forEach(btn => {
         btn.addEventListener('click', function(e) {
           e.preventDefault();
           const action = this.querySelector('i').className.split(' ')[1];
-          
-          switch(action) {
+
+          switch (action) {
             case 'fa-play':
               alert('Ejecutando script... (simulación)');
               break;
@@ -903,7 +969,7 @@ fi</code></pre>
           }
         });
       });
-      
+
       // Handle table actions
       const tableActions = document.querySelectorAll('.action-btns button');
       tableActions.forEach(btn => {
@@ -911,8 +977,8 @@ fi</code></pre>
           e.preventDefault();
           const action = this.querySelector('i').className.split(' ')[1];
           const scriptName = this.closest('tr').querySelector('td:first-child').textContent;
-          
-          switch(action) {
+
+          switch (action) {
             case 'fa-edit':
               alert(`Editando: ${scriptName}`);
               break;
@@ -933,4 +999,5 @@ fi</code></pre>
     });
   </script>
 </body>
+
 </html>
