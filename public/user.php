@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 require("../vendor/autoload.php");
 
@@ -654,15 +654,12 @@ $usuario->setEmail($email);
               <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Mi Perfil</a></li>
               <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Configuración</a></li>
               <li><a class="dropdown-item" href="#"><i class="fas fa-download me-2"></i> Mis Descargas</a></li>
-              
-              <li><a class="dropdown-item" href="manual/"
 
-
-><i class="fas fa-question-circle me-2"></i> AYUDA</a></li>
+              <li><a class="dropdown-item" href="manual/"><i class="fas fa-question-circle me-2"></i> AYUDA</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item" href="index.php"><i class="fas fa-sign-out-alt me-2"></i> Cerrar Sesión</a></li>
+              <li><a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt me-2"></i> Cerrar Sesión</a></li>
             </ul>
           </li>
         </ul>
@@ -698,9 +695,9 @@ $usuario->setEmail($email);
         <i class="fas fa-heart"></i>
         <span>Favoritos</span>
       </a>
-      <a href="#" class="sidebar-link">
+      <a href="solicitudes.php" class="sidebar-link">
         <i class="fas fa-comments"></i>
-        <span>Soporte</span>
+        <span>Solicitudes</span>
       </a>
       <a href="#" class="sidebar-link">
         <i class="fas fa-credit-card"></i>
@@ -714,7 +711,7 @@ $usuario->setEmail($email);
         <i class="fas fa-cog"></i>
         <span>Configuración</span>
       </a>
-      <a href="index.php" class="sidebar-link">
+      <a href="logout.php" class="sidebar-link">
         <i class="fas fa-sign-out-alt"></i>
         <span>Cerrar Sesión</span>
       </a>

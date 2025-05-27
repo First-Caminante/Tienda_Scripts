@@ -1,3 +1,21 @@
+<?php
+
+
+
+require("../vendor/autoload.php");
+
+//use Model\Usuario;
+
+
+session_start();
+
+
+
+//dd($_SESSION);
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -473,13 +491,10 @@
       <li><a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
       <li><a href="#"><i class="fas fa-code"></i> Mis Scripts</a></li>
       <li><a href="#"><i class="fas fa-plus-circle"></i> Crear Script</a></li>
-      <li><a href="#"><i class="fas fa-chart-line"></i> Estadísticas</a></li>
-      <li><a href="#"><i class="fas fa-dollar-sign"></i> Ventas</a></li>
-
       <div class="menu-label">Configuración</div>
       <li><a href="#"><i class="fas fa-user-cog"></i> Perfil</a></li>
       <li><a href="#"><i class="fas fa-bell"></i> Notificaciones</a></li>
-      <li><a href="#"><i class="fas fa-question-circle"></i> Ayuda</a></li>
+      <li><a href="logout.php"><i class="fas fa-question-circle"></i> Cerrar Sesion</a></li>
     </ul>
 
     <div class="user-profile">
@@ -708,13 +723,13 @@
                 <h5>Automatización de Backups v2.0</h5>
                 <div class="editor-toolbar">
                   <button title="Ejecutar"><i class="fas fa-play"></i></button>
-                  <button title="Guardar"><i class="fas fa-save"></i></button>
+                  <button title="nGuardar"><i class="fas fa-save"></i></button>
                   <button title="Descargar"><i class="fas fa-download"></i></button>
                   <button title="Expandir"><i class="fas fa-expand"></i></button>
                 </div>
               </div>
               <div class="editor-body">
-                <pre><code>#!/bin/bash
+                <pre><code contenteditable="true">#!/bin/bash
 # Script de Automatización de Backups v2.0
 # Desarrollado por: Juan Chambi 
 
@@ -941,35 +956,35 @@ fi</code></pre>
       }
 
       // Handle editor actions
-      const editorActions = document.querySelectorAll('.editor-toolbar button, .editor-actions button');
-      editorActions.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          e.preventDefault();
-          const action = this.querySelector('i').className.split(' ')[1];
+      /*  const editorActions = document.querySelectorAll('.editor-toolbar button, .editor-actions button');
+        editorActions.forEach(btn => {
+          btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const action = this.querySelector('i').className.split(' ')[1];
 
-          switch (action) {
-            case 'fa-play':
-              alert('Ejecutando script... (simulación)');
-              break;
-            case 'fa-save':
-              alert('Script guardado correctamente');
-              break;
-            case 'fa-download':
-              alert('Descargando script...');
-              break;
-            case 'fa-expand':
-              alert('Pantalla completa activada');
-              break;
-            default:
-              if (this.textContent.includes('Publicar')) {
-                alert('Script publicado con éxito');
-              } else if (this.textContent.includes('Guardar')) {
-                alert('Cambios guardados');
-              }
-          }
+            switch (action) {
+              case 'fa-play':
+                alert('Ejecutando script... (simulación)');
+                break;
+              case 'fa-save':
+                alert('Script guardado correctamente');
+                break;
+              case 'fa-download':
+                alert('Descargando script...');
+                break;
+              case 'fa-expand':
+                alert('Pantalla completa activada');
+                break;
+              default:
+                if (this.textContent.includes('Publicar')) {
+                  alert('Script publicado con éxito');
+                } else if (this.textContent.includes('Guardar')) {
+                  alert('Cambios guardados');
+                }
+            }
+          });
         });
-      });
-
+       */
       // Handle table actions
       const tableActions = document.querySelectorAll('.action-btns button');
       tableActions.forEach(btn => {

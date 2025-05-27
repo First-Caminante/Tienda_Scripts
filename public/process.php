@@ -320,6 +320,118 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         ]);
       }
       break;
+    ////////////desde aqui al final solicitudes
+    //
+    case 'crearSolicitud':
+      session_start();
+
+      if (!isset($_SESSION['id'])) {
+        echo json_encode(['success' => false, 'message' => 'Usuario no autenticado']);
+        exit;
+      }
+
+      $data = [
+        'usuario_id' => $_SESSION['id'],
+        'titulo' => $_POST['titulo'] ?? '',
+        'descripcion' => $_POST['descripcion'] ?? '',
+        'estado' => 'pendiente'
+      ];
+
+      // Validación básica
+      if (empty($data['titulo']) || empty($data['descripcion'])) {
+        echo json_encode(['success' => false, 'message' => 'Título y descripción son requeridos']);
+        exit;
+      }
+
+      $result = $funciones->crearSolicitud($data);
+
+      if (isset($_POST['ajax']) && $_POST['ajax'] === 'true') {
+        header('Content-Type: application/json');
+        echo json_encode($result);
+      } else {
+        if ($result['success']) {
+          header('Location: solicitudes.php?success=1');
+        } else {
+          header('Location: solicitudes.php?error=' . urlencode($result['message']));
+        }
+      }
+      exit;
+      break;
+
+    case 'getSolicitudesUsuario':
+      session_start();
+
+      if (!isset($_SESSION['id'])) {
+        echo json_encode(['success' => false, 'message' => 'Usuario no autenticado']);
+        exit;
+      }
+
+      $solicitudes = $funciones->getSolicitudesByUsuario($_SESSION['id']);
+
+      header('Content-Type: application/json');
+      echo json_encode([
+        'success' => true,
+        'solicitudes' => $solicitudes
+      ]);
+      exit;
+      break;
+
+    case 'eliminarSolicitud':
+      session_start();
+
+      if (!isset($_SESSION['id'])) {
+        echo json_encode(['success' => false, 'message' => 'Usuario no autenticado']);
+        exit;
+      }
+
+      $solicitud_id = $_POST['solicitud_id'] ?? 0;
+
+      if (!$solicitud_id) {
+        echo json_encode(['success' => false, 'message' => 'ID de solicitud requerido']);
+        exit;
+      }
+
+      // Solo permitir eliminar solicitudes del usuario actual
+      $result = $funciones->eliminarSolicitud($solicitud_id, $_SESSION['id']);
+
+      if (isset($_POST['ajax']) && $_POST['ajax'] === 'true') {
+        header('Content-Type: application/json');
+        echo json_encode($result);
+      } else {
+        if ($result['success']) {
+          header('Location: solicitudes.php?deleted=1');
+        } else {
+          header('Location: solicitudes.php?error=' . urlencode($result['message']));
+        }
+      }
+      exit;
+      break;
+
+    case 'actualizarEstadoSolicitud':
+      session_start();
+
+      // Solo admin puede cambiar estados
+      if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
+        echo json_encode(['success' => false, 'message' => 'Acceso denegado']);
+        exit;
+      }
+
+      $solicitud_id = $_POST['solicitud_id'] ?? 0;
+      $nuevo_estado = $_POST['estado'] ?? '';
+
+      $estados_validos = ['pendiente', 'en proceso', 'completado', 'rechazado'];
+
+      if (!$solicitud_id || !in_array($nuevo_estado, $estados_validos)) {
+        echo json_encode(['success' => false, 'message' => 'Datos inválidos']);
+        exit;
+      }
+
+      $result = $funciones->actualizarEstadoSolicitud($solicitud_id, $nuevo_estado);
+
+      header('Content-Type: application/json');
+      echo json_encode($result);
+      exit;
+      break;
   };
 } else {
   echo "error no method post aaaaaaaaaa";

@@ -1,0 +1,10 @@
+{
+    "titulo": "caminante",
+    "descripcion": "soy un caminante",
+    "categoria": "Seguridad",
+    "precio": 30,
+    "etiquetas": [
+        "walker"
+    ],
+    "ultima_modificacion": "2025-05-27 05:53:48"
+}

@@ -1,0 +1,13 @@
+{
+    "titulo": "Automatización de Backups v2.0",
+    "descripcion": "Script avanzado para automatizar backups con rotación, compresión y notificaciones. Compatible con Linux y macOS.",
+    "categoria": "Utilidades",
+    "precio": 29.99,
+    "etiquetas": [
+        "backup",
+        " automatización",
+        " seguridad",
+        " shell"
+    ],
+    "ultima_modificacion": "2025-05-27 05:37:32"
+}

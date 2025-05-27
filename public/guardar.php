@@ -1,7 +1,7 @@
 <?php
 // Recibir datos JSON del frontend
 $data = json_decode(file_get_contents("php://input"), true);
-dd($data);
+//dd($data);
 if (!$data) {
   http_response_code(400);
   echo "Datos inválidos.";
