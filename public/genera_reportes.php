@@ -8,8 +8,20 @@ error_reporting(E_ALL);
 require_once '../vendor/autoload.php';
 //require_once 'App/Controllers/Functions.php';
 
+
+
+
 use App\Controllers\Functions;
 use TCPDF;
+
+session_start();
+
+if ($_SESSION['rol'] != "admin") {
+  header('location:login.php');
+}
+
+
+
 
 $functions = new Functions();
 

@@ -10,8 +10,14 @@ require("../vendor/autoload.php");
 session_start();
 
 
-
 //dd($_SESSION);
+
+
+
+if ($_SESSION['rol'] != "desarrollador") {
+  header('location:login.php');
+}
+
 
 ?>
 

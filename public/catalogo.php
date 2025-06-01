@@ -1,4 +1,14 @@
 <?php
+
+session_start();
+
+
+if ($_SESSION['rol'] != "cliente") {
+  header('location:login.php');
+}
+
+
+
 // Función para leer todos los scripts de la carpeta
 function obtenerScripts()
 {

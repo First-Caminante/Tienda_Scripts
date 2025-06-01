@@ -9,6 +9,11 @@ session_start();
 
 //dd($_SESSION);
 
+if ($_SESSION['rol'] != "cliente") {
+  header('location:login.php');
+}
+
+
 
 $usuario = new Usuario();
 
@@ -707,9 +712,9 @@ $usuario->setEmail($email);
         <i class="fas fa-user-circle"></i>
         <span>Perfil</span>
       </a>
-      <a href="#" class="sidebar-link">
+      <a href="catalogo.php" class="sidebar-link">
         <i class="fas fa-cog"></i>
-        <span>Configuración</span>
+        <span>Ver Catalogo</span>
       </a>
       <a href="logout.php" class="sidebar-link">
         <i class="fas fa-sign-out-alt"></i>

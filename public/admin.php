@@ -9,6 +9,16 @@ require_once '../vendor/autoload.php';
 // Usar la clase Connection directamente
 use Database\PDO\Connection;
 
+session_start();
+//dd($_SESSION);
+
+
+if ($_SESSION['rol'] != "admin") {
+  header('location:login.php');
+}
+
+
+
 // Obtener la conexión PDO
 $connection = Connection::getInstance()->getConnection();
 
@@ -124,6 +134,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form method="POST">
       <button type="submit" name="backup">Crear Backup Completo</button>
     </form>
+    <form action="logout.php" method="POST">
+      <button type="submit" name="">Cerrar Session</button>
+    </form>
+
+    <form action="genera_reportes.php">
+      <button type="submit" name="">GENERAR REPORTES</button>
+    </form>
+
 
     <!-- Navegación por pestañas -->
     <ul class="nav nav-tabs" id="myTab" role="tablist">
