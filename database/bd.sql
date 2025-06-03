@@ -152,21 +152,4 @@ DELIMITER ;
 
 
 
-DELIMITER //
-
-CREATE PROCEDURE LoginUsuario(
-    IN p_email VARCHAR(100),
-    IN p_password_hash VARCHAR(255)
-)
-BEGIN
-    SELECT id, nombre, email, rol
-    FROM usuarios
-    WHERE email = p_email AND password_hash = p_password_hash;
-END;
-//
-
-DELIMITER ;
-
-
-
 

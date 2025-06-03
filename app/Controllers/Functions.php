@@ -29,6 +29,54 @@ class Functions
   }
 
 
+  public function delete()
+  {
+    try {
+      // Desactiva temporalmente las restricciones de claves foráneas
+      $this->connection->exec('SET FOREIGN_KEY_CHECKS = 0');
+
+      // Lista de tablas en el orden correcto (evita errores por dependencias)
+      $tablas = ['pagos', 'respuestas', 'solicitudes', 'usuarios'];
+
+      foreach ($tablas as $tabla) {
+        $this->connection->exec("TRUNCATE TABLE $tabla");
+      }
+
+      // Reactiva las restricciones de claves foráneas
+      $this->connection->exec('SET FOREIGN_KEY_CHECKS = 1');
+
+      return ['status' => 'success', 'message' => 'Todos los datos han sido eliminados correctamente.'];
+    } catch (\PDOException $e) {
+      return ['status' => 'error', 'message' => 'Error al borrar los datos: ' . $e->getMessage()];
+    }
+  }
+
+
+
+  public function borrarTodosLosDatos()
+  {
+    try {
+      // Desactiva temporalmente las restricciones de claves foráneas
+      $this->connection->exec('SET FOREIGN_KEY_CHECKS = 0');
+
+      // Lista de tablas en el orden correcto (evita errores por dependencias)
+      $tablas = ['pagos', 'respuestas', 'solicitudes', 'usuarios'];
+
+      foreach ($tablas as $tabla) {
+        $this->connection->exec("TRUNCATE TABLE $tabla");
+      }
+
+      // Reactiva las restricciones de claves foráneas
+      $this->connection->exec('SET FOREIGN_KEY_CHECKS = 1');
+
+      return ['status' => 'success', 'message' => 'Todos los datos han sido eliminados correctamente.'];
+    } catch (\PDOException $e) {
+      return ['status' => 'error', 'message' => 'Error al borrar los datos: ' . $e->getMessage()];
+    }
+  }
+
+
+
   ///aqui para pagos   
   public function getSolicitudPorId($solicitud_id): array
   {

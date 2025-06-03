@@ -143,6 +143,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form action="genera_reportes.php">
       <button type="submit" name="">GENERAR REPORTES</button>
     </form>
+    <form action="process.php" method="POST">
+      <input type="hidden" name="action" value="borrar">
+      <button type="submit" name="">ELIMINAR TODO por error</button>
+    </form>
+
+
 
 
     <!-- Navegación por pestañas -->

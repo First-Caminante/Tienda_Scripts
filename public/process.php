@@ -434,6 +434,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
       echo json_encode($result);
       exit;
       break;
+    case "borrar":
+      $funciones->delete();
+      break;
   };
 } else {
   echo "error no method post aaaaaaaaaa";

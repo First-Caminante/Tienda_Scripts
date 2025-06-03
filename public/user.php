@@ -704,9 +704,9 @@ $usuario->setEmail($email);
         <i class="fas fa-comments"></i>
         <span>Solicitudes</span>
       </a>
-      <a href="#" class="sidebar-link">
+      <a href="solicitudes_usuario.php" class="sidebar-link">
         <i class="fas fa-credit-card"></i>
-        <span>Facturación</span>
+        <span>Respuestas</span>
       </a>
       <a href="#" class="sidebar-link">
         <i class="fas fa-user-circle"></i>
@@ -749,7 +749,7 @@ $usuario->setEmail($email);
         <i class="fas fa-code"></i>
         <div>Nuevo Script</div>
       </a>
-      <a href="#" class="quick-action-btn">
+      <a href="solicitudes.php" class="quick-action-btn">
         <i class="fas fa-headset"></i>
         <div>Soporte</div>
       </a>
