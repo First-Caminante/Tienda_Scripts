@@ -688,7 +688,7 @@ $usuario->setEmail($email);
         <i class="fas fa-code"></i>
         <span>Mis Scripts</span>
       </a>
-      <a href="#" class="sidebar-link">
+      <a href="catalogo.php" class="sidebar-link">
         <i class="fas fa-store"></i>
         <span>Tienda</span>
       </a>
@@ -741,7 +741,7 @@ $usuario->setEmail($email);
 
     <!-- Quick Actions -->
     <div class="quick-actions" data-aos="fade-up">
-      <a href="#" class="quick-action-btn">
+      <a href="catalogo.php" class="quick-action-btn">
         <i class="fas fa-download"></i>
         <div>Descargar</div>
       </a>

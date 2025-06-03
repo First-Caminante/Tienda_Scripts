@@ -3,6 +3,9 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+
+
 // Incluir el autoloader de Composer
 require_once '../vendor/autoload.php';
 
@@ -131,13 +134,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="container-fluid py-4">
     <h1 class="mb-4">Panel Administrativo - TiendaScripts</h1>
 
-    <form method="POST">
-      <button type="submit" name="backup">Crear Backup Completo</button>
+    <form method="POST" action="backup_restore.php">
+      <button type="submit" name="backupa">Crear Backup Completo</button>
     </form>
     <form action="logout.php" method="POST">
       <button type="submit" name="">Cerrar Session</button>
     </form>
-
     <form action="genera_reportes.php">
       <button type="submit" name="">GENERAR REPORTES</button>
     </form>

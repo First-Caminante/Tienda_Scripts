@@ -28,6 +28,310 @@ class Functions
     $this->backupPath = BASE_DIR . '/public/backup/';
   }
 
+
+  ///aqui para pagos   
+  public function getSolicitudPorId($solicitud_id): array
+  {
+    try {
+      $sql = "SELECT s.*, u.nombre as cliente_nombre, u.email as cliente_email,
+                       r.archivo_script, r.mensaje as respuesta_mensaje,
+                       d.nombre as desarrollador_nombre
+                FROM solicitudes s 
+                INNER JOIN usuarios u ON s.usuario_id = u.id
+                LEFT JOIN respuestas r ON s.id = r.solicitud_id
+                LEFT JOIN usuarios d ON r.desarrollador_id = d.id
+                WHERE s.id = ?";
+      $stmt = $this->connection->prepare($sql);
+      $stmt->execute([$solicitud_id]);
+      $resultado = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+      return $resultado ? $resultado : ['error' => 'Solicitud no encontrada'];
+    } catch (\PDOException $e) {
+      return ['error' => 'Error al obtener solicitud: ' . $e->getMessage()];
+    }
+  }
+
+  /**
+   * Crear un nuevo pago
+   */
+  public function crearPago($usuario_id, $solicitud_id, $monto, $datos_pago = []): array
+  {
+    try {
+      // Validar datos de pago simulados
+      $estado_pago = $this->validarDatosPago($datos_pago);
+
+      $sql = "INSERT INTO pagos (usuario_id, solicitud_id, monto, estado) VALUES (?, ?, ?, ?)";
+      $stmt = $this->connection->prepare($sql);
+      $stmt->execute([$usuario_id, $solicitud_id, $monto, $estado_pago]);
+
+      $pago_id = $this->connection->lastInsertId();
+
+      return [
+        'success' => true,
+        'pago_id' => $pago_id,
+        'estado' => $estado_pago,
+        'message' => $this->getMensajePago($estado_pago)
+      ];
+    } catch (\PDOException $e) {
+      return [
+        'success' => false,
+        'error' => 'Error al procesar pago: ' . $e->getMessage()
+      ];
+    }
+  }
+
+  /**
+   * Validar datos de pago simulados
+   */
+  private function validarDatosPago($datos): string
+  {
+    // Validaciones simuladas realistas
+
+    // Validar número de tarjeta
+    $numero_tarjeta = preg_replace('/\s+/', '', $datos['numero_tarjeta'] ?? '');
+    if (strlen($numero_tarjeta) < 16 || !is_numeric($numero_tarjeta)) {
+      return 'fallido';
+    }
+
+    // Validar CVV
+    $cvv = $datos['cvv'] ?? '';
+    if (strlen($cvv) < 3 || !is_numeric($cvv)) {
+      return 'fallido';
+    }
+
+    // Validar fecha de expiración
+    $mes = $datos['mes'] ?? '';
+    $año = $datos['año'] ?? '';
+    if (empty($mes) || empty($año) || $mes < 1 || $mes > 12) {
+      return 'fallido';
+    }
+
+    $fecha_actual = new \DateTime();
+    $fecha_expiracion = new \DateTime("$año-$mes-01");
+    if ($fecha_expiracion < $fecha_actual) {
+      return 'fallido';
+    }
+
+    // Validar nombre del titular
+    $nombre = trim($datos['nombre_titular'] ?? '');
+    if (strlen($nombre) < 3) {
+      return 'fallido';
+    }
+
+    // Validar email
+    $email = $datos['email'] ?? '';
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      return 'fallido';
+    }
+
+    // Simulación de probabilidad de éxito (95% éxito)
+    $probabilidad = rand(1, 100);
+    if ($probabilidad <= 5) {
+      return 'fallido';
+    }
+
+    // Simulación de procesamiento (5% pendiente, 95% pagado)
+    $estado_final = rand(1, 100);
+    return $estado_final <= 95 ? 'pagado' : 'pendiente';
+  }
+
+  /**
+   * Obtener mensaje según el estado del pago
+   */
+  private function getMensajePago($estado): string
+  {
+    switch ($estado) {
+      case 'pagado':
+        return 'Pago procesado exitosamente. ¡Gracias por tu compra!';
+      case 'pendiente':
+        return 'Pago en proceso de verificación. Te notificaremos cuando se complete.';
+      case 'fallido':
+        return 'Error en el procesamiento del pago. Verifica tus datos e intenta nuevamente.';
+      default:
+        return 'Estado de pago desconocido.';
+    }
+  }
+
+  /**
+   * Obtener historial de pagos de un usuario
+   */
+  public function getPagosUsuario($usuario_id): array
+  {
+    try {
+      $sql = "SELECT p.*, s.titulo as solicitud_titulo, s.descripcion
+                FROM pagos p 
+                INNER JOIN solicitudes s ON p.solicitud_id = s.id
+                WHERE p.usuario_id = ?
+                ORDER BY p.fecha_pago DESC";
+      $stmt = $this->connection->prepare($sql);
+      $stmt->execute([$usuario_id]);
+      return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    } catch (\PDOException $e) {
+      return ['error' => 'Error al obtener historial de pagos: ' . $e->getMessage()];
+    }
+  }
+
+  /**
+   * Generar precio simulado basado en la solicitud
+   */
+  public function generarPrecioScript($solicitud_id): float
+  {
+    // Generar precio basado en el ID y características simuladas
+    $precios_base = [15.99, 25.99, 35.99, 45.99, 55.99, 75.99, 99.99];
+    $index = $solicitud_id % count($precios_base);
+    return $precios_base[$index];
+  }
+  ///aqui terminan pagos 
+  ///notificaciones para el usuario 
+
+  public function getSolicitudesUsuario($usuario_id): array
+  {
+    try {
+      $sql = "SELECT s.*, 
+                       r.mensaje as respuesta_mensaje,
+                       r.archivo_script,
+                       r.fecha_respuesta,
+                       u.nombre as desarrollador_nombre
+                FROM solicitudes s 
+                LEFT JOIN respuestas r ON s.id = r.solicitud_id
+                LEFT JOIN usuarios u ON r.desarrollador_id = u.id
+                WHERE s.usuario_id = ?
+                ORDER BY s.fecha_creacion DESC";
+      $stmt = $this->connection->prepare($sql);
+      $stmt->execute([$usuario_id]);
+      return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    } catch (\PDOException $e) {
+      return ['error' => 'Error al obtener solicitudes del usuario: ' . $e->getMessage()];
+    }
+  }
+
+  /**
+   * Obtener estadísticas del usuario
+   */
+  public function getEstadisticasUsuario($usuario_id): array
+  {
+    try {
+      $sql = "SELECT 
+                    COUNT(*) as total_solicitudes,
+                    SUM(CASE WHEN estado = 'pendiente' THEN 1 ELSE 0 END) as pendientes,
+                    SUM(CASE WHEN estado = 'en proceso' THEN 1 ELSE 0 END) as en_proceso,
+                    SUM(CASE WHEN estado = 'completado' THEN 1 ELSE 0 END) as completados,
+                    SUM(CASE WHEN estado = 'rechazado' THEN 1 ELSE 0 END) as rechazados
+                FROM solicitudes 
+                WHERE usuario_id = ?";
+      $stmt = $this->connection->prepare($sql);
+      $stmt->execute([$usuario_id]);
+      return $stmt->fetch(\PDO::FETCH_ASSOC);
+    } catch (\PDOException $e) {
+      return ['error' => 'Error al obtener estadísticas: ' . $e->getMessage()];
+    }
+  }
+
+  ///aqui acaba sus notify 
+
+
+  ///aqui van para las respuestas
+
+
+  public function insertarRespuesta($solicitud_id, $desarrollador_id, $mensaje, $archivo_script = null): array
+  {
+    try {
+      $sql = "INSERT INTO respuestas (solicitud_id, desarrollador_id, mensaje, archivo_script) VALUES (?, ?, ?, ?)";
+      $stmt = $this->connection->prepare($sql);
+      $stmt->execute([$solicitud_id, $desarrollador_id, $mensaje, $archivo_script]);
+
+      return [
+        'success' => true,
+        'message' => 'Respuesta insertada correctamente',
+        'id' => $this->connection->lastInsertId()
+      ];
+    } catch (\PDOException $e) {
+      return [
+        'success' => false,
+        'error' => 'Error al insertar respuesta: ' . $e->getMessage()
+      ];
+    }
+  }
+
+  /**
+   * Cambiar el estado de una solicitud
+   */
+  public function cambiarEstadoSolicitud($solicitud_id, $nuevo_estado): array
+  {
+    try {
+      $estados_validos = ['pendiente', 'en proceso', 'completado', 'rechazado'];
+
+      if (!in_array($nuevo_estado, $estados_validos)) {
+        return [
+          'success' => false,
+          'error' => 'Estado no válido'
+        ];
+      }
+
+      $sql = "UPDATE solicitudes SET estado = ? WHERE id = ?";
+      $stmt = $this->connection->prepare($sql);
+      $stmt->execute([$nuevo_estado, $solicitud_id]);
+
+      if ($stmt->rowCount() > 0) {
+        return [
+          'success' => true,
+          'message' => 'Estado actualizado correctamente'
+        ];
+      } else {
+        return [
+          'success' => false,
+          'error' => 'No se encontró la solicitud o no se realizó ningún cambio'
+        ];
+      }
+    } catch (\PDOException $e) {
+      return [
+        'success' => false,
+        'error' => 'Error al cambiar estado: ' . $e->getMessage()
+      ];
+    }
+  }
+
+  /**
+   * Obtener solicitudes con información del usuario
+   */
+  public function getSolicitudesConUsuario(): array
+  {
+    try {
+      $sql = "SELECT s.*, u.nombre as usuario_nombre, u.email as usuario_email 
+                FROM solicitudes s 
+                INNER JOIN usuarios u ON s.usuario_id = u.id 
+                ORDER BY s.fecha_creacion DESC";
+      $stmt = $this->connection->query($sql);
+      return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    } catch (\PDOException $e) {
+      return ['error' => 'Error al obtener solicitudes: ' . $e->getMessage()];
+    }
+  }
+
+  /**
+   * Obtener respuestas con información de solicitud y desarrollador
+   */
+  public function getRespuestasCompletas(): array
+  {
+    try {
+      $sql = "SELECT r.*, s.titulo as solicitud_titulo, s.descripcion as solicitud_descripcion,
+                       u.nombre as desarrollador_nombre, u.email as desarrollador_email,
+                       uc.nombre as cliente_nombre, uc.email as cliente_email
+                FROM respuestas r 
+                INNER JOIN solicitudes s ON r.solicitud_id = s.id
+                INNER JOIN usuarios u ON r.desarrollador_id = u.id
+                INNER JOIN usuarios uc ON s.usuario_id = uc.id
+                ORDER BY r.fecha_respuesta DESC";
+      $stmt = $this->connection->query($sql);
+      return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    } catch (\PDOException $e) {
+      return ['error' => 'Error al obtener respuestas: ' . $e->getMessage()];
+    }
+  }
+
+
+  ///aqui acaban las para las respuestas
+
   ///////////aqui iran las funciones para solicitudes
   //
 

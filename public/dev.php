@@ -499,7 +499,7 @@ if ($_SESSION['rol'] != "desarrollador") {
       <li><a href="#"><i class="fas fa-plus-circle"></i> Crear Script</a></li>
       <div class="menu-label">Configuración</div>
       <li><a href="#"><i class="fas fa-user-cog"></i> Perfil</a></li>
-      <li><a href="#"><i class="fas fa-bell"></i> Notificaciones</a></li>
+      <li><a href="respuestas.php"><i class="fas fa-bell"></i> Notificaciones</a></li>
       <li><a href="logout.php"><i class="fas fa-question-circle"></i> Cerrar Sesion</a></li>
     </ul>
 

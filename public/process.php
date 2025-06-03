@@ -100,6 +100,8 @@ function generateUsuariosReport($pdf, $funciones)
 
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
+
+  //  dd($_POST);
   $action = $_POST['action'] ?? '';
   switch ($action) {
     case 'addUser':
